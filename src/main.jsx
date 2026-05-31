@@ -93,6 +93,7 @@ function App() {
   const [relayState, setRelayState] = useState("idle");
   const [fp, setFp] = useState("");
   const seen = useRef(new Set());
+  const relayMissing = useRef(false);
   const bottom = useRef(null);
 
   const canUnlock = name.trim().length > 0 && passphrase.length >= 12;
@@ -112,8 +113,15 @@ function App() {
     let alive = true;
 
     async function poll() {
+      if (relayMissing.current) return;
       try {
         const res = await fetch(`${RELAY}?roomId=${encodeURIComponent(room.roomId)}`, { cache: "no-store" });
+        if (res.status === 404) {
+          relayMissing.current = true;
+          setRelayState("offline");
+          setNotice("Relay function is not deployed on this Netlify site. Redeploy with netlify/functions included.");
+          return;
+        }
         if (!res.ok) throw new Error("Relay unavailable.");
         const data = await res.json();
         const incoming = [];
@@ -209,6 +217,10 @@ function App() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ message })
       });
+      if (res.status === 404) {
+        relayMissing.current = true;
+        throw new Error("Relay function is not deployed.");
+      }
       if (!res.ok) throw new Error("Send failed.");
       setRelayState("live");
       setNotice("");
@@ -229,6 +241,7 @@ function App() {
     setRelayState("idle");
     setDeviceId(randomId(12));
     seen.current = new Set();
+    relayMissing.current = false;
   }
 
   return (

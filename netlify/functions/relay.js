@@ -6,14 +6,16 @@ const MAX_MESSAGES = 500;
 const ROOM_RE = /^[A-Za-z0-9_-]{22,96}$/;
 const ID_RE = /^[A-Za-z0-9_-]{16,96}$/;
 
-const json = (body, status = 200) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store"
-    }
-  });
+const headers = {
+  "content-type": "application/json; charset=utf-8",
+  "cache-control": "no-store"
+};
+
+const json = (body, statusCode = 200) => ({
+  statusCode,
+  headers,
+  body: JSON.stringify(body)
+});
 
 const fail = (status, error) => json({ error }, status);
 
@@ -27,15 +29,14 @@ function validEnvelope(message) {
   return true;
 }
 
-export default async (req) => {
-  const url = new URL(req.url);
-  const roomId = url.searchParams.get("roomId") || "";
+export const handler = async (event) => {
+  const roomId = event.queryStringParameters?.roomId || "";
 
   if (!ROOM_RE.test(roomId)) return fail(400, "Invalid room.");
 
   const store = getStore({ name: STORE_NAME, consistency: "strong" });
 
-  if (req.method === "GET") {
+  if (event.httpMethod === "GET") {
     const prefix = `${roomId}/`;
     const listed = await store.list({ prefix });
     const blobs = listed.blobs
@@ -51,8 +52,8 @@ export default async (req) => {
     return json({ messages });
   }
 
-  if (req.method === "POST") {
-    const raw = await req.text();
+  if (event.httpMethod === "POST") {
+    const raw = event.body || "";
     if (raw.length > MAX_MESSAGE_BYTES + 4096) return fail(413, "Message is too large.");
 
     let body;
