@@ -1,0 +1,22 @@
+{
+  "name": "sealed",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "dev:vite": "vite --host 127.0.0.1 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.0.8",
+    "@vitejs/plugin-react": "^5.0.4",
+    "vite": "^7.2.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^23.11.0"
+  }
+}

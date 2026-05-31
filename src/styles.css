@@ -1,0 +1,397 @@
+:root {
+  color-scheme: dark;
+  --bg: #080a0d;
+  --paper: #11161d;
+  --panel: #171d25;
+  --panel-2: #1d2530;
+  --line: #303846;
+  --soft-line: #222936;
+  --text: #f2eadb;
+  --muted: #a7a092;
+  --dim: #6e716f;
+  --gold: #d8aa3d;
+  --gold-2: #f0c766;
+  --green: #69c18f;
+  --red: #d87867;
+  --blue: #8ab7d6;
+  --radius: 8px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(135deg, rgba(216, 170, 61, 0.08), transparent 36%),
+    radial-gradient(circle at 74% 12%, rgba(138, 183, 214, 0.14), transparent 34%),
+    var(--bg);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.shell {
+  width: min(1120px, 100%);
+  min-height: 100dvh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--soft-line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(216, 170, 61, 0.8);
+  border-radius: 50%;
+  color: var(--gold-2);
+  background: rgba(216, 170, 61, 0.1);
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+.brand strong {
+  display: block;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.brand small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dim);
+}
+
+.pulse.live {
+  background: var(--green);
+  box-shadow: 0 0 0 5px rgba(105, 193, 143, 0.1);
+}
+
+.pulse.offline {
+  background: var(--red);
+}
+
+.fingerprint {
+  color: var(--gold-2);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.setup {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 36px;
+  align-items: center;
+  padding: 48px 22px;
+}
+
+.intro {
+  max-width: 610px;
+}
+
+.eyebrow,
+.label {
+  color: var(--gold-2);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 14px 0 18px;
+  max-width: 780px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 7vw, 78px);
+  line-height: 0.98;
+  font-weight: 500;
+}
+
+.intro p:not(.eyebrow) {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.panel,
+.roomcard {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--panel), transparent 8%);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+.panel {
+  padding: 24px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: #0d1117;
+  padding: 12px 13px;
+  outline: none;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(216, 170, 61, 0.12);
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  background: var(--panel-2);
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--gold);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.primary,
+.send {
+  border-color: var(--gold);
+  color: #151008;
+  background: var(--gold);
+  font-weight: 700;
+}
+
+.secondary,
+.ghost {
+  color: var(--gold-2);
+  background: rgba(216, 170, 61, 0.08);
+}
+
+.ghost {
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.fineprint,
+.notice {
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.notice {
+  color: var(--gold-2);
+}
+
+.chat {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  padding: 16px 22px 22px;
+}
+
+.roomcard {
+  display: grid;
+  grid-template-columns: auto auto minmax(180px, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+}
+
+.roomcard strong {
+  display: block;
+  margin-top: 3px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.invite {
+  min-width: 0;
+  color: var(--muted);
+}
+
+.stream {
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 0;
+}
+
+.empty {
+  margin: auto;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty strong {
+  color: var(--text);
+  font-size: 20px;
+}
+
+.message {
+  width: min(72%, 560px);
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.message.mine {
+  align-self: flex-end;
+  border-color: rgba(216, 170, 61, 0.42);
+  background: rgba(216, 170, 61, 0.08);
+}
+
+.message.theirs {
+  align-self: flex-start;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.message p {
+  margin: 7px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.chatnotice {
+  margin: 0 0 10px;
+  text-align: center;
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 92px;
+  gap: 10px;
+}
+
+.composer textarea {
+  min-height: 48px;
+  max-height: 150px;
+}
+
+@media (max-width: 780px) {
+  .topbar,
+  .status {
+    align-items: flex-start;
+  }
+
+  .topbar {
+    flex-direction: column;
+  }
+
+  .status {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .setup {
+    grid-template-columns: 1fr;
+    padding-top: 28px;
+  }
+
+  h1 {
+    font-size: clamp(38px, 13vw, 58px);
+  }
+
+  .roomcard {
+    grid-template-columns: 1fr;
+  }
+
+  .message {
+    width: 88%;
+  }
+}
+
+@media (max-width: 520px) {
+  .actions,
+  .composer {
+    grid-template-columns: 1fr;
+  }
+
+  .shell {
+    min-width: 320px;
+  }
+}
