@@ -44,7 +44,7 @@ async function handleRelay(event) {
   if (!ROOM_RE.test(roomId)) return fail(400, "Invalid room.");
 
   if (event.blobs) connectLambda(event);
-  const store = getStore(STORE_NAME, { consistency: "strong" });
+  const store = getStore(STORE_NAME);
 
   if (event.httpMethod === "GET") {
     const prefix = `${roomId}/`;
