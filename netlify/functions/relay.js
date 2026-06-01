@@ -1,4 +1,4 @@
-import { getStore } from "@netlify/blobs";
+import { connectLambda, getStore } from "@netlify/blobs";
 
 const STORE_NAME = "sealed-messages";
 const MAX_MESSAGE_BYTES = 24 * 1024;
@@ -30,11 +30,21 @@ function validEnvelope(message) {
 }
 
 export const handler = async (event) => {
+  try {
+    return await handleRelay(event);
+  } catch (error) {
+    console.error("relay_error", error);
+    return fail(500, "Relay crashed. Check Netlify function logs.");
+  }
+};
+
+async function handleRelay(event) {
   const roomId = event.queryStringParameters?.roomId || "";
 
   if (!ROOM_RE.test(roomId)) return fail(400, "Invalid room.");
 
-  const store = getStore({ name: STORE_NAME, consistency: "strong" });
+  if (event.blobs) connectLambda(event);
+  const store = getStore(STORE_NAME);
 
   if (event.httpMethod === "GET") {
     const prefix = `${roomId}/`;
@@ -75,4 +85,4 @@ export const handler = async (event) => {
   }
 
   return fail(405, "Method not allowed.");
-};
+}
